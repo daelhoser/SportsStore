@@ -11,54 +11,41 @@ namespace SportsStore.Controllers
 {
     public class CartController : Controller
     {
-        private readonly IProductRepository repository;
+        private readonly IProductRepository _repository;
+        private readonly Cart _cart;
 
-        public CartController(IProductRepository repository)
+        public CartController(IProductRepository repository, Cart cart)
         {
-            this.repository = repository;
+            this._repository = repository;
+            this._cart = cart;
         }
 
         public ViewResult Index(string returnUrl) => View(new CartIndexViewModel
         {
-            Cart = GetCart(),
+            Cart = _cart,
             ReturnUrl = returnUrl
         });
 
         public RedirectToActionResult AddToCart(int productId, string returnUrl)
         {
-            Product product = repository.Products.FirstOrDefault(p => p.ProductID == productId);
+            Product product = _repository.Products.FirstOrDefault(p => p.ProductID == productId);
 
             if (product != null)
             {
-                Cart cart = GetCart();
-                cart.AddItem(product, 1);
-                SaveCart(cart);
+                _cart.AddItem(product, 1);
             }
             return RedirectToAction("Index", new { returnUrl });
         }
 
         public RedirectToActionResult RemoveCart(int productId, string returnUrl)
         {
-            Product product = repository.Products.FirstOrDefault(p => p.ProductID == productId);
+            Product product = _repository.Products.FirstOrDefault(p => p.ProductID == productId);
 
             if (product != null)
             {
-                Cart cart = GetCart();
-                cart.RemoveLine(product);
-                SaveCart(cart);
+                _cart.RemoveLine(product);
             }
             return RedirectToAction("Index", new { returnUrl });
-        }
-
-        private Cart GetCart()
-        {
-            Cart cart = HttpContext.Session.GetJson<Cart>("Cart") ?? new Cart();
-            return cart;
-        }
-
-        private void SaveCart(Cart cart)
-        {
-            HttpContext.Session.SetJson("Cart", cart);
         }
     }
 }
