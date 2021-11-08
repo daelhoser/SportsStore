@@ -10,5 +10,10 @@
       "library": "fontawesome-iconpicker@3.2.0",
       "destination": "wwwroot/lib/fontawesome-iconpicker/"
     }
-  ]
+  ,
+{
+  "library": "font-awesome@5.15.4",
+  "destination": "wwwroot/lib/font-awesome/"
+}
+]
 }
