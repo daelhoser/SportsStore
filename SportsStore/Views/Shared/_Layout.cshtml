@@ -13,15 +13,15 @@
         <div class="row">
             <span class="col navbar-brand">SPORTS STORE</span>
             <div class="col-6 text-right">
-                @await Component.InvokeAsync("CartSummary")
-                @*<vc:cart-summary></vc:cart-summary>*@
+                @*@await Component.InvokeAsync("CartSummary")*@
+                <vc:cart-summary></vc:cart-summary>
             </div>
         </div>
     </div>
 </div>
     <div class="row m-1 p-1">
         <div id="categories" class="col-3">
-            @* This is suppose to work on Core 3 (at least on the sports store code) but it doesn't.'  *@
+            @* Two ways of doing this. 1. await and 2 tag helper  *@
             @*<vc:navigation-menu />*@
 
             @await Component.InvokeAsync("NavigationMenu")
